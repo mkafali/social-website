@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3">
+    <br/>
+    {% if messages %}
+        {% if not user.is_authenticated %}
+            {% for message in messages %}
+            <div class="alert alert-warning" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+    
+    <form method="POST" action="{% url 'complain_post' post.user.username post.slug %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="card text-bg-secondary border-light mb-3" style="width: 30rem;">
+            <h1 class="card-header">COMPLAIN POST</h1>
+            <div class="card-body">
+                {% if form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for field, error_list in form.errors.items %}
+                                {% for error in error_list %}
+                                    <li>{{ field|title }}: {{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                
+                
+                <label class="form-label">Reason: </label>
+                <div class="mb-3">
+                    {{ form.reason }}
+                </div>
+                
+                <br/>
+                <button type="submit" class="btn btn-light">Send</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

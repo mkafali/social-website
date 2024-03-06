@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container" style="margin-top: 20px; margin-bottom: 0px; padding-bottom: 0;">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+  {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-success" role="alert">
+          {{message}}
+        </div>
+      {% endfor %}
+  {% endif %}
+  <div style="margin-left: 400px;"><h1>{{user_chat.username}}</h1></div>
+  
+  {% for message in all_messages %}
+  <div class="chat-container">
+        
+        {% if message.sent_by == profile.user %}
+        <h5>You</h5>
+        <a href="{% url 'delete_message' message.sent_to.username message.slug %}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+              <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+            </svg>
+      </a>
+      <div class="chat-box sent">
+        {{message.content}}
+      </div>
+        {% if message.seen %}
+          <span style="margin-left: 20px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+            <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486z"/>
+            </svg>
+            
+          </span>
+          {% endif %}
+        
+          
+          
+       
+        {% else %}
+        <h5>{{message.sent_by.username}}</h5>
+        <div class="chat-box received">
+            {{message.content}}
+          </div>
+        {% endif %}
+  </div>
+  {% endfor %} 
+  {% if profile.user not in user_chat.profile.blocked.all and not user_chat in profile.blocked.all %}
+  <div style="margin-left: 400px;">
+  <a href="{% url 'send_message' user_chat.username %}">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+      </svg>
+</a>
+</div>
+{% endif %}
+
+{% endblock %}

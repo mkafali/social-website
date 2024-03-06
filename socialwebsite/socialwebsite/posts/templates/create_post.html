@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3">
+    <br/>
+    {% if messages %}
+        {% if not user.is_authenticated %}
+            {% for message in messages %}
+            <div class="alert alert-warning" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+    
+    <form method="POST" action="{% url 'create_post' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="card text-bg-secondary border-light mb-3" style="width: 30rem;">
+            <h1 class="card-header">Register</h1>
+            <div class="card-body">
+                {% if form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for field, error_list in form.errors.items %}
+                                {% for error in error_list %}
+                                    <li>{{ field|title }}: {{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                <div class="mb-3">
+                    <label class="form-label">PHOTO</label>
+                    <br/>
+                    <input type="file" name="image" accept="image/*" id="id_photo_post">
+                </div>
+                <hr/>
+                <label class="form-label">Caption</label>
+                <div class="mb-3">
+                    {{ form.caption }}
+                </div>
+                <hr/>
+                <label class="form-label">Title</label>
+                <div class="mb-3">
+                    {{ form.title }}
+                </div>
+                
+                <br/>
+                <button type="submit" class="btn btn-light">Share</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
