@@ -6,7 +6,7 @@
 **Users app is related to user and profile actions like:**
 * Log in/ Log out
 * Register
-* Password change/reset/validation(I used session features for them)
+* Password change/reset/validation (I used session features for them)
 * Profile Edit
 * User Settings
 * Profile search
